@@ -1,0 +1,102 @@
+{
+  "level": 1,
+  "label": "Syntactic",
+  "concepts": [
+    {
+      "name": "Variable declaration",
+      "description": "A syntax construct that introduces a named value, variable, constant, binding, or field. Use this label for declarations such as let, var, const, final, type-annotated variables, and language-specific binding forms."
+    },
+    {
+      "name": "Assignment",
+      "description": "A syntax construct that stores or updates a value in an existing variable, field, property, array slot, or other assignable location. Use this label for direct assignment and compound assignment operators."
+    },
+    {
+      "name": "Conditional branching",
+      "description": "A syntax construct that selects between execution paths based on a condition. Use this label for if, else, elif, ternary expressions, conditional expressions, and guard-like branching syntax."
+    },
+    {
+      "name": "Loops",
+      "description": "A syntax construct that repeats a block or expression while iterating over values or while a condition remains true. Use this label for for, while, do-while, foreach, repeat, loop, break, and continue structures."
+    },
+    {
+      "name": "Exception handling",
+      "description": "A syntax construct that handles exceptional control flow. Use this label for try, catch, except, finally, throw, raise, rescue, ensure, and equivalent constructs."
+    },
+    {
+      "name": "Function definition",
+      "description": "A syntax construct that declares a callable unit of code with parameters and a body. Use this label for functions, methods, procedures, constructors, local functions, and language-specific function declarations."
+    },
+    {
+      "name": "Function call",
+      "description": "A syntax construct that invokes a function, method, constructor, callable object, lambda, or closure. Use this label when code passes arguments to a callable and receives a result or side effect."
+    },
+    {
+      "name": "Lambda or anonymous function",
+      "description": "A syntax construct that defines an unnamed callable expression. Use this label for lambdas, arrow functions, anonymous functions, blocks, closures, and inline callback definitions."
+    },
+    {
+      "name": "Class or struct definition",
+      "description": "A syntax construct that defines a composite type and its members. Use this label for classes, structs, records, data classes, interfaces, traits, protocols, enums with members, and similar type declarations."
+    },
+    {
+      "name": "Import or module inclusion",
+      "description": "A syntax construct that brings external names, modules, packages, namespaces, headers, or libraries into scope. Use this label for import, include, require, using, package, namespace, and from-import forms."
+    },
+    {
+      "name": "Arithmetic operations",
+      "description": "A syntax construct that performs numeric computation. Use this label for addition, subtraction, multiplication, division, modulo, exponentiation, increment, decrement, and numeric compound operations."
+    },
+    {
+      "name": "Boolean operations",
+      "description": "A syntax construct that combines or negates truth values. Use this label for and, or, not, logical operators, short-circuit operators, and boolean comparisons used as expressions."
+    },
+    {
+      "name": "Comparison operations",
+      "description": "A syntax construct that compares two or more values. Use this label for equality, inequality, ordering, identity checks, membership checks, and language-specific comparison operators."
+    },
+    {
+      "name": "Bitwise operations",
+      "description": "A syntax construct that manipulates values at the bit level. Use this label for bitwise and, or, xor, not, shifts, masks, flags, and bit-level compound assignments."
+    },
+    {
+      "name": "Indexing and slicing",
+      "description": "A syntax construct that accesses part of a sequence, collection, array, string, span, or memory region. Use this label for bracket indexing, ranges, slices, subscripts, and destructuring-style indexed access."
+    },
+    {
+      "name": "Member access",
+      "description": "A syntax construct that accesses a property, field, method, namespace member, or nested symbol. Use this label for dot access, arrow access, scope resolution, optional member access, and similar forms."
+    },
+    {
+      "name": "Pointer or reference access",
+      "description": "A syntax construct that works with memory addresses, references, dereferencing, borrowing, or pointer-like access. Use this label for address-of, dereference, pointer member access, reference binding, and borrow syntax."
+    },
+    {
+      "name": "Memory allocation or deallocation",
+      "description": "A syntax construct that creates, allocates, releases, or destroys memory-backed objects or resources. Use this label for new, delete, malloc, free, stack allocation, heap allocation, and explicit deallocation syntax."
+    },
+    {
+      "name": "Type annotation or declaration",
+      "description": "A syntax construct that states or constrains the type of a variable, parameter, return value, field, expression, or declaration. Use this label for explicit type annotations, return types, nullable markers, and type declarations."
+    },
+    {
+      "name": "Cast or type conversion",
+      "description": "A syntax construct that converts or asserts a value from one type to another. Use this label for casts, coercions, as/is checks, explicit constructors used as conversions, and language-specific conversion operators."
+    },
+    {
+      "name": "Generic or template syntax",
+      "description": "A syntax construct that parameterizes code by type, value, or compile-time argument. Use this label for generics, templates, type parameters, bounds, constraints, and generic instantiation syntax."
+    },
+    {
+      "name": "Pattern matching syntax",
+      "description": "A syntax construct that matches values by shape, type, literal value, constructor, tuple position, field, or enum variant. Use this label for match, case, switch pattern clauses, destructuring patterns, and binding patterns."
+    },
+    {
+      "name": "Literal expression",
+      "description": "A syntax construct that directly writes a value in source code. Use this label for string, number, boolean, null, array, object, tuple, dictionary, set, regex, enum, and raw literal forms."
+    },
+    {
+      "name": "Return or yield",
+      "description": "A syntax construct that exits a function or produces a value from a generator, coroutine, iterator, or block. Use this label for return, yield, yield return, and equivalent result-producing control flow."
+    }
+  ]
+}

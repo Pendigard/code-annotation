@@ -1,0 +1,256 @@
+{
+  "level": 4,
+  "label": "Design Patterns",
+  "concepts": [
+    {
+      "name": "Creational",
+      "description": "Design patterns that control, abstract, or centralize object creation so client code does not depend directly on concrete construction details.",
+      "subconcepts": [
+        {
+          "name": "Abstract factory",
+          "description": "Provides an interface for creating families of related objects without requiring client code to know their concrete classes."
+        },
+        {
+          "name": "Builder",
+          "description": "Separates the construction of a complex object from its final representation, often by accumulating configuration through a dedicated builder object."
+        },
+        {
+          "name": "Factory method",
+          "description": "Defines a creation method that lets subclasses or implementations decide which concrete object to instantiate."
+        },
+        {
+          "name": "Prototype",
+          "description": "Creates new objects by cloning or copying an existing prototype instance instead of constructing them from scratch."
+        },
+        {
+          "name": "Singleton",
+          "description": "Ensures a class or component has a single shared instance and provides a controlled global access point to it."
+        },
+        {
+          "name": "Multiton",
+          "description": "Maintains a controlled set of named or keyed shared instances, rather than a single global instance."
+        },
+        {
+          "name": "Object pool",
+          "description": "Reuses expensive objects from a managed pool instead of repeatedly allocating and destroying them."
+        },
+        {
+          "name": "Dependency injection",
+          "description": "Supplies a component's dependencies from the outside, usually through constructors, setters, providers, or a container, instead of letting the component construct them directly."
+        },
+        {
+          "name": "Lazy initialization",
+          "description": "Defers creation of an object or expensive value until it is first needed, often hiding the creation behind an accessor or factory."
+        }
+      ]
+    },
+    {
+      "name": "Structural",
+      "description": "Design patterns that compose classes or objects into larger structures while keeping responsibilities, interfaces, and dependencies manageable.",
+      "subconcepts": [
+        {
+          "name": "Adapter",
+          "description": "Wraps an object or interface so it can be used through another interface expected by client code."
+        },
+        {
+          "name": "Bridge",
+          "description": "Separates an abstraction from its implementation so both can vary independently."
+        },
+        {
+          "name": "Composite",
+          "description": "Represents part-whole hierarchies so clients can treat individual objects and object compositions uniformly."
+        },
+        {
+          "name": "Decorator",
+          "description": "Adds behavior to an object by wrapping it with another object that preserves the same interface."
+        },
+        {
+          "name": "Facade",
+          "description": "Provides a simplified interface over a larger subsystem or group of collaborators."
+        },
+        {
+          "name": "Flyweight",
+          "description": "Shares immutable or reusable state between many fine-grained objects to reduce memory usage."
+        },
+        {
+          "name": "Proxy",
+          "description": "Provides a placeholder or surrogate object that controls access to another object, often for lazy loading, remote access, caching, logging, or authorization."
+        },
+        {
+          "name": "Delegation",
+          "description": "Forwards responsibility for part of an operation to another object, allowing behavior to be reused or varied through composition."
+        },
+        {
+          "name": "Module",
+          "description": "Groups related data, functions, classes, or services behind a cohesive namespace or boundary with a clear public interface."
+        },
+        {
+          "name": "Extension object",
+          "description": "Allows additional behavior or data to be attached to an object or hierarchy without modifying the original type hierarchy."
+        }
+      ]
+    },
+    {
+      "name": "Behavioral",
+      "description": "Design patterns that organize communication, responsibility, algorithms, or state-dependent behavior between objects or components.",
+      "subconcepts": [
+        {
+          "name": "Chain of responsibility",
+          "description": "Passes a request through a chain of handlers until one handles it, reducing coupling between sender and receiver."
+        },
+        {
+          "name": "Command",
+          "description": "Encapsulates a request as an object so it can be queued, logged, parameterized, retried, or undone."
+        },
+        {
+          "name": "Interpreter",
+          "description": "Represents grammar rules and evaluates sentences or expressions in a small language or domain-specific notation."
+        },
+        {
+          "name": "Iterator",
+          "description": "Encapsulates traversal of a collection or aggregate object without exposing its internal representation."
+        },
+        {
+          "name": "Mediator",
+          "description": "Centralizes communication between collaborating objects so they do not depend directly on each other."
+        },
+        {
+          "name": "Memento",
+          "description": "Captures an object's internal state so it can later be restored without exposing that state to other objects."
+        },
+        {
+          "name": "Null object",
+          "description": "Provides a harmless object with default behavior to replace null checks and missing collaborators."
+        },
+        {
+          "name": "Observer",
+          "description": "Defines a one-to-many dependency where observers are notified when a subject changes state."
+        },
+        {
+          "name": "Publish-subscribe",
+          "description": "Decouples message producers from consumers through topics, events, channels, or a broker-like intermediary."
+        },
+        {
+          "name": "Specification",
+          "description": "Encapsulates business rules or predicates as composable objects that can be combined, reused, and tested independently."
+        },
+        {
+          "name": "State",
+          "description": "Encapsulates state-specific behavior in separate objects so an object changes behavior when its internal state changes."
+        },
+        {
+          "name": "Strategy",
+          "description": "Encapsulates interchangeable algorithms or policies behind a common interface so the client can choose or swap behavior."
+        },
+        {
+          "name": "Template method",
+          "description": "Defines the skeleton of an algorithm in a base operation while deferring selected steps to subclasses or hooks."
+        },
+        {
+          "name": "Visitor",
+          "description": "Separates operations from the object structure they operate on, allowing new operations to be added without changing the visited classes."
+        },
+        {
+          "name": "Blackboard",
+          "description": "Coordinates independent knowledge sources through a shared data structure where partial solutions are posted and consumed."
+        }
+      ]
+    },
+    {
+      "name": "Concurrency",
+      "description": "Design patterns that structure asynchronous, concurrent, or parallel work at the component level rather than merely using low-level synchronization primitives.",
+      "subconcepts": [
+        {
+          "name": "Active object",
+          "description": "Decouples method invocation from execution by queueing requests and processing them asynchronously in a separate execution context."
+        },
+        {
+          "name": "Balking",
+          "description": "Refuses to execute an operation when an object is not in an appropriate state, often returning immediately instead of blocking."
+        },
+        {
+          "name": "Guarded suspension",
+          "description": "Suspends an operation until a required condition becomes true, usually while coordinating access to shared state."
+        },
+        {
+          "name": "Monitor object",
+          "description": "Encapsulates shared state and synchronizes access through methods protected by mutual exclusion."
+        },
+        {
+          "name": "Read-write lock",
+          "description": "Separates shared read access from exclusive write access so multiple readers can proceed concurrently while writers remain exclusive."
+        },
+        {
+          "name": "Reactor",
+          "description": "Demultiplexes events from one or more sources and dispatches them to registered handlers, commonly for non-blocking I/O."
+        },
+        {
+          "name": "Scheduler",
+          "description": "Centralizes decisions about when tasks, jobs, callbacks, or threads are allowed to execute."
+        },
+        {
+          "name": "Thread pool",
+          "description": "Maintains a reusable set of worker threads that pull tasks from a queue, avoiding unbounded thread creation."
+        },
+        {
+          "name": "Thread-specific storage",
+          "description": "Associates data with a particular thread so each thread sees its own isolated instance of otherwise global or shared-looking state."
+        },
+        {
+          "name": "Producer-consumer",
+          "description": "Separates components that produce work items from components that consume them, usually through a queue or buffer."
+        },
+        {
+          "name": "Future or promise",
+          "description": "Represents a result that may become available later, allowing asynchronous work to be composed, awaited, or chained."
+        },
+        {
+          "name": "Join pattern",
+          "description": "Coordinates multiple concurrent messages or tasks by triggering behavior only when a required combination of events has occurred."
+        }
+      ]
+    },
+    {
+      "name": "Architectural",
+      "description": "Design patterns that organize larger application boundaries, responsibilities, persistence, presentation, or communication between layers and components.",
+      "subconcepts": [
+        {
+          "name": "Model-view-controller",
+          "description": "Separates domain data, user interface rendering, and input/control logic into model, view, and controller responsibilities."
+        },
+        {
+          "name": "Model-view-viewmodel",
+          "description": "Separates UI representation from presentation state and behavior through a view model that exposes data and commands to the view."
+        },
+        {
+          "name": "Repository",
+          "description": "Provides a collection-like abstraction over data access, hiding persistence details from domain or application logic."
+        },
+        {
+          "name": "Unit of work",
+          "description": "Tracks changes to objects during a business transaction and coordinates committing or rolling them back as a single unit."
+        },
+        {
+          "name": "Data access object",
+          "description": "Encapsulates persistence operations for a data source or entity, separating storage-specific code from business logic."
+        },
+        {
+          "name": "Service layer",
+          "description": "Defines application operations as services that coordinate domain logic, persistence, transactions, and external integrations."
+        },
+        {
+          "name": "Front controller",
+          "description": "Routes all incoming requests through a single entry point that dispatches to the appropriate handlers or controllers."
+        },
+        {
+          "name": "Event bus",
+          "description": "Provides a shared event dispatch mechanism that lets producers publish events without depending directly on consumers."
+        },
+        {
+          "name": "Command query responsibility segregation",
+          "description": "Separates operations that change state from operations that read state, often using different models or handlers for commands and queries."
+        }
+      ]
+    }
+  ]
+}

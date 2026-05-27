@@ -1,0 +1,110 @@
+{
+  "level": 3,
+  "label": "Programming Paradigms",
+  "concepts": [
+    {
+      "name": "Imperative",
+      "description": "A programming style where code specifies explicit steps that change program state and control execution flow.",
+      "subconcepts": [
+        {
+          "name": "Procedural",
+          "description": "An imperative style where programs are organized as procedures or routines that operate on data and call each other."
+        },
+        {
+          "name": "Object-oriented",
+          "description": "A programming style where programs are organized around objects that combine state, behavior, and interactions through methods.",
+          "subconcepts": [
+            {
+              "name": "Class-based",
+              "description": "Object-oriented programming where objects are instances of classes, and classes define their structure, behavior, and inheritance relationships."
+            },
+            {
+              "name": "Object-based",
+              "description": "Object-oriented programming that uses objects to encapsulate state and behavior, but does not rely on class inheritance or subtyping."
+            },
+            {
+              "name": "Prototype-based",
+              "description": "Object-oriented programming that avoids classes and implements inheritance via cloning of instances"
+            },
+            {
+              "name": "Data, context, and interaction",
+              "description": "Paradigm that emphasizes mental models and run-time behavior of networks of objects, whose responsibilities are granted dynamically based on roles they play in interactions with other objects"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Declarative",
+      "description": "A programming style where code describes desired results, relationships, or constraints more than explicit step-by-step state changes.",
+      "subconcepts": [
+        {
+          "name": "Functional",
+          "description": "A declarative style where computation is expressed through function application and composition, often avoiding mutable state and side effects."
+        },
+        {
+          "name": "Logic",
+          "description": "A declarative style where programs are expressed as facts and rules, and computation is performed by querying or deriving logical consequences."
+        },
+        {
+          "name": "Reactive",
+          "description": "A programming style where computations react to events, data streams, or changing values, propagating updates through dependent computations."
+        },
+        {
+          "name": "Constraint programming",
+          "description": "A declarative style where relations between variables are expressed as constraints, and a solver searches for values that satisfy them."
+        },
+        {
+          "name": "Dataflow programming",
+          "description": "A programming style where computation is modeled as data flowing through operations, and operations execute when their input data becomes available or changes."
+        },
+        {
+          "name": "Rule-based programming",
+          "description": "A declarative style where behavior or inference is driven by a set of rules, often matching conditions against facts to derive conclusions or trigger actions."
+        }
+      ]
+    },
+    {
+      "name": "Concurrent and Parallel programming",
+      "description": "A programming style focused on structuring computations that overlap in time, run simultaneously, or coordinate multiple flows of execution.",
+      "subconcepts": [
+        {
+          "name": "Actor programming",
+          "description": "A concurrent style where independent actors encapsulate state and communicate by sending messages rather than sharing mutable state directly."
+        },
+        {
+          "name": "Distributed programming",
+          "description": "A programming style for systems whose components run on multiple networked machines and coordinate through communication protocols or message passing."
+        },
+        {
+          "name": "Parallel programming",
+          "description": "A programming style where multiple computations are executed simultaneously to improve throughput, latency, or computational performance."
+        }
+      ]
+    },
+    {
+      "name": "Generic programming",
+      "description": "A programming style where algorithms and data structures are written in terms of type parameters, interfaces, traits, or concepts so they can be reused across many concrete types."
+    },
+    {
+      "name": "Metaprogramming",
+      "description": "A programming style where programs generate, inspect, transform, or extend code or program structure, either at compile time, load time, or runtime."
+    },
+    {
+      "name": "Aspect-oriented programming",
+      "description": "A programming style that separates cross-cutting concerns such as logging, authorization, tracing, or transactions into aspects that are applied across multiple program locations."
+    },
+    {
+      "name": "Event-driven programming",
+      "description": "A programming style where control flow is driven by events such as user actions, messages, timers, I/O readiness, or signals, typically handled through callbacks, listeners, or event loops."
+    },
+    {
+      "name": "Data-oriented programming",
+      "description": "A programming style that emphasizes data layout, data transformation, and cache-friendly processing, often separating data from behavior for performance or clarity."
+    },
+    {
+      "name": "Array programming",
+      "description": "A programming style where operations are expressed over whole arrays, matrices, or tensors rather than explicit scalar loops, often used in numerical and data analysis code."
+    }
+  ]
+}

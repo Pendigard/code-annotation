@@ -1,0 +1,106 @@
+{
+  "level": 2,
+  "label": "Idiomatic Level (Idioms & Structures)",
+  "concepts": [
+    {
+      "name": "RAII",
+      "description": "An idiom where acquiring a resource is tied to object initialization and releasing it is tied to object destruction or scope exit. Use this label for code where lifetime, ownership, and cleanup are expressed through object scope rather than explicit close or free calls.",
+      "languages": ["C++", "Rust", "D", "Swift"]
+    },
+    {
+      "name": "List comprehension",
+      "description": "A compact expression that builds a list or collection by iterating over an input sequence, optionally filtering or transforming elements. Use this label for idiomatic collection construction written as an expression rather than an explicit loop.",
+      "languages": ["Python", "Haskell", "Scala", "Julia", "Erlang"]
+    },
+    {
+      "name": "Optional/Null-safety encapsulation",
+      "description": "An idiom where nullable values are wrapped, typed, checked, or chained through language constructs so absence is handled explicitly. Use this label for Optional, Option, nullable types, safe calls, null-coalescing, and similar code that prevents unchecked null access.",
+      "languages": ["Java", "Kotlin", "Swift", "Rust", "Scala", "C#", "TypeScript"]
+    },
+    {
+      "name": "Context managers",
+      "description": "An idiom where setup and teardown are scoped by a language construct such as with, using, defer, or try-with-resources. Use this label when code guarantees cleanup of files, locks, transactions, connections, or temporary state at block exit.",
+      "languages": ["Python", "C#", "Java", "Kotlin", "Go", "Ruby"]
+    },
+    {
+      "name": "Async/Await closures",
+      "description": "An idiom where asynchronous operations are expressed with async functions, await points, futures, promises, tasks, or suspending closures. Use this label for code that captures behavior in asynchronous callbacks or closures while preserving sequential-looking control flow.",
+      "languages": ["JavaScript", "TypeScript", "Python", "C#", "Kotlin", "Swift", "Rust"]
+    },
+    {
+      "name": "Iterator and generator protocol",
+      "description": "An idiom where traversal is represented by iterators, generators, yield expressions, or lazy sequence pipelines. Use this label for code that exposes or consumes a stream of values without materializing the whole collection immediately.",
+      "languages": ["Python", "JavaScript", "TypeScript", "C#", "Rust", "Ruby", "Kotlin"]
+    },
+    {
+      "name": "Pattern matching and destructuring",
+      "description": "An idiom where values are decomposed and routed by shape, type, constructor, tuple position, object fields, or enum variants. Use this label for match, switch expressions, destructuring assignment, case classes, and algebraic data type handling.",
+      "languages": ["Rust", "Scala", "Haskell", "OCaml", "F#", "Swift", "Python", "JavaScript", "TypeScript", "Kotlin"]
+    },
+    {
+      "name": "Fluent chaining",
+      "description": "An idiom where operations are composed through chained method calls, often returning the receiver or a transformed object at each step. Use this label for builder-like APIs, stream pipelines, query builders, and readable chains of transformations.",
+      "languages": ["Java", "JavaScript", "TypeScript", "C#", "Kotlin", "Scala", "Ruby", "Swift"]
+    },
+    {
+      "name": "Guard clauses",
+      "description": "An idiom where invalid, exceptional, or early-return cases are handled at the start of a function to keep the main path shallow and readable. Use this label for early returns, precondition checks, and fail-fast function structure.",
+      "languages": ["JavaScript", "TypeScript", "Python", "Java", "C#", "Kotlin", "Swift", "Go", "Ruby"]
+    },
+    {
+      "name": "Resource cleanup finalization",
+      "description": "An idiom where cleanup is made explicit through finally, defer, ensure, scope guards, or disposable blocks. Use this label when resource release is separated from acquisition but still guaranteed by structured control flow.",
+      "languages": ["Java", "Python", "JavaScript", "TypeScript", "Go", "Ruby", "C#", "Swift"]
+    },
+    {
+      "name": "Error-as-value handling",
+      "description": "An idiom where errors are represented and propagated as ordinary values rather than only through exceptions. Use this label for Result, Either, tagged return values, explicit error tuples, and code paths that force callers to inspect success or failure.",
+      "languages": ["Rust", "Go", "Haskell", "Scala", "F#", "Swift", "Kotlin", "TypeScript"]
+    },
+    {
+      "name": "Closure-based callbacks",
+      "description": "An idiom where behavior is passed as an anonymous function, lambda, block, or closure to customize control flow, event handling, filtering, mapping, or deferred execution. Use this label when code relies on captured lexical context inside function values.",
+      "languages": ["JavaScript", "TypeScript", "Python", "Ruby", "Swift", "Kotlin", "C#", "Java", "Rust"]
+    },
+    {
+      "name": "Stream or sequence pipeline",
+      "description": "An idiom where data processing is expressed as a chain of transformations such as map, filter, flatMap, reduce, fold, collect, or toList. Use this label when code describes collection processing declaratively instead of mutating an accumulator step by step.",
+      "languages": ["Java", "C#", "Kotlin", "Scala", "Rust", "JavaScript", "TypeScript", "Python", "Swift"]
+    },
+    {
+      "name": "Scope functions",
+      "description": "An idiom where a value is temporarily made the receiver or argument of a small block to configure it, transform it, inspect it, or limit the scope of intermediate variables. Use this label for constructs such as let, run, also, apply, with, tap, then, and similar scoped helper calls.",
+      "languages": ["Kotlin", "Ruby", "Swift", "JavaScript", "TypeScript", "Rust"]
+    },
+    {
+      "name": "Safe navigation and null coalescing",
+      "description": "An idiom where nullable access is shortened through safe navigation, optional chaining, Elvis, or null-coalescing operators. Use this label when code reads through potentially absent values or supplies a fallback without an explicit nested null check.",
+      "languages": ["Kotlin", "Swift", "C#", "JavaScript", "TypeScript", "Ruby", "Groovy", "PHP"]
+    },
+    {
+      "name": "Result propagation",
+      "description": "An idiom where success or failure is propagated to the caller with compact language support or conventional early-return forms. Use this label for Rust question-mark propagation, Swift try, Kotlin runCatching chains, Go error returns, and similar code that forwards failure without deeply nested handling.",
+      "languages": ["Rust", "Swift", "Go", "Kotlin", "Haskell", "F#", "Scala"]
+    },
+    {
+      "name": "Lazy initialization",
+      "description": "An idiom where a value is computed only on first access and then reused. Use this label for lazy properties, cached properties, once cells, lazy delegates, memoized initialization, and deferred construction of expensive objects.",
+      "languages": ["Kotlin", "Swift", "C#", "Python", "Rust", "Java", "Scala"]
+    },
+    {
+      "name": "Extension methods",
+      "description": "An idiom where behavior is added to an existing type without modifying its original definition. Use this label for extension functions, extension methods, protocol or trait extensions, and static helper syntax that reads like an instance method.",
+      "languages": ["Kotlin", "C#", "Swift", "Rust", "Scala", "TypeScript", "Dart"]
+    },
+    {
+      "name": "Decorator or annotation metadata",
+      "description": "An idiom where metadata or wrapper behavior is attached to declarations with decorators, annotations, attributes, or macros. Use this label when code marks functions, classes, fields, routes, tests, dependency injection bindings, or serialization behavior declaratively.",
+      "languages": ["Python", "Java", "C#", "TypeScript", "JavaScript", "Kotlin", "Rust"]
+    },
+    {
+      "name": "Immutable update",
+      "description": "An idiom where existing data is not modified in place; instead a new value is produced by copying, spreading, or using a with-style update. Use this label for record updates, object spread, copy methods, persistent collections, and functional state updates.",
+      "languages": ["JavaScript", "TypeScript", "Kotlin", "Scala", "Rust", "Swift", "C#", "Haskell", "OCaml"]
+    }
+  ]
+}

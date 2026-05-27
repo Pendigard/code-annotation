@@ -1,0 +1,76 @@
+{
+  "level": 3,
+  "label": "Algorithmic Paradigms",
+  "concepts": [
+    {
+      "name": "Recursion",
+      "description": "A method of solving problems where a function calls itself within its own code to solve smaller versions of the same problem",
+      "subconcepts": [
+        {
+          "name": "Tail recursion",
+          "description": "A specific form of recursion where the recursive call is the last operation in the function, allowing for optimization by the compiler or interpreter"
+        },
+        {
+          "name": "Mutual recursion",
+          "description": "A situation where two or more functions call each other in a cyclic manner, often used to solve problems that can be broken down into smaller, similar subproblems"
+        },
+        {
+          "name": "Wrapper recursion",
+          "description": "A form of recursion that employs a wrapper function that is directly invoked but does not recurse itself. Instead, it calls a separate auxiliary function that actually performs the recursion"
+        }
+      ]
+    },
+    {
+      "name": "Backtracking",
+      "description": "A general algorithmic technique that incrementally builds candidates to the solutions and abandons a candidate as soon as it determines that the candidate cannot possibly lead to a valid solution"
+    },
+    {
+      "name": "Branch and bound",
+      "description": "A  method for solving optimization problems by breaking them down into smaller subproblems and using a bounding function to eliminate subproblems that cannot contain the optimal solution"
+    },
+    {
+      "name": "Brute-force search",
+      "description": "A very general problem-solving technique and algorithmic paradigm that consists of systematically checking all possible candidates for whether or not each candidate satisfies the problem's statement"
+    },
+    {
+      "name": "Divide and conquer",
+      "description": "A method that breaks down a problem into two or more sub-problems of the same or related type, until these become simple enough to be solved directly. The solutions to the sub-problems are then combined to give a solution to the original problem."
+    },
+    {
+      "name": "Dynamic programming",
+      "description": "A method for solving complex problems by breaking them down into simpler subproblems, storing the results of those subproblems to avoid redundant work",
+      "subconcepts": [
+        {
+          "name": "Memoization",
+          "description": "An optimization technique used primarily to speed up computer programs by storing the results of expensive function calls and returning the cached result when the same inputs occur again"
+        },
+        {
+          "name": "Tabulation",
+          "description": "A bottom-up approach to dynamic programming that involves filling in a table (usually an array) based on the results of smaller subproblems, starting from the base cases and working upwards"
+        }
+      ]
+    },
+    {
+      "name": "Greedy algorithm",
+      "description": "A algorithm that, at each step, makes the choice that is locally optimal, and subsequently does not reconsider past choices."
+    },
+    {
+      "name": "Randomized algorithm",
+      "description": "An algorithm that employs a degree of randomness as part of its logic, or procedure",
+      "subconcepts": [
+        {
+          "name": "Las Vegas algorithm",
+          "description": "A randomized algorithm that always produces a correct result, or informs the user of failure (e.g. Quicksort )"
+        },
+        {
+          "name": "Monte Carlo algorithm",
+          "description": "A randomized algorithm whose output may be incorrect with a certain (typically small) probability. "
+        }
+      ]
+    },
+    {
+      "name": "No algorithmic paradigm",
+      "description": "Use when the code does not implement a recognizable algorithmic problem-solving strategy beyond ordinary syntax, idioms, or business logic."
+    }
+  ]
+}
