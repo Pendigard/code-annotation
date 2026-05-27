@@ -1,0 +1,43 @@
+
+    {
+      "name": "Architectural",
+      "description": "Design patterns that organize larger application boundaries, responsibilities, persistence, presentation, or communication between layers and components.",
+      "subconcepts": [
+        {
+          "name": "Model-view-controller",
+          "description": "Separates domain data, user interface rendering, and input/control logic into model, view, and controller responsibilities."
+        },
+        {
+          "name": "Model-view-viewmodel",
+          "description": "Separates UI representation from presentation state and behavior through a view model that exposes data and commands to the view."
+        },
+        {
+          "name": "Repository",
+          "description": "Provides a collection-like abstraction over data access, hiding persistence details from domain or application logic."
+        },
+        {
+          "name": "Unit of work",
+          "description": "Tracks changes to objects during a business transaction and coordinates committing or rolling them back as a single unit."
+        },
+        {
+          "name": "Data access object",
+          "description": "Encapsulates persistence operations for a data source or entity, separating storage-specific code from business logic."
+        },
+        {
+          "name": "Service layer",
+          "description": "Defines application operations as services that coordinate domain logic, persistence, transactions, and external integrations."
+        },
+        {
+          "name": "Front controller",
+          "description": "Routes all incoming requests through a single entry point that dispatches to the appropriate handlers or controllers."
+        },
+        {
+          "name": "Event bus",
+          "description": "Provides a shared event dispatch mechanism that lets producers publish events without depending directly on consumers."
+        },
+        {
+          "name": "Command query responsibility segregation",
+          "description": "Separates operations that change state from operations that read state, often using different models or handlers for commands and queries."
+        }
+      ]
+    }
