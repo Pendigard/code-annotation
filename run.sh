@@ -1,8 +1,8 @@
 python -m src.parser.joern_parser \
-    --code-dir data/code/py/ \
-    --project-name Python \
+    --code-dir data/code/test/ \
+    --project-name CPP \
     --output-path outputs/annotations.jsonl \
-    --jsonl-writing-mode a
+    --jsonl-writing-mode w
 
 python -m src.dataset.load_github_code \
     --num_samples 1000 \

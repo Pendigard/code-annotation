@@ -1,118 +1,284 @@
-import json
+import re
 from dataclasses import dataclass
-from typing import Dict, List, Protocol, Any
-import ast
-from cpgqls_client import CPGQLSClient
+from pathlib import Path
+from typing import Any, Dict, List, Protocol
 
 
-def run_query(client: CPGQLSClient, query: str) -> str:
-    result = client.execute(query)
+def find_identifier_span(line: str, identifier: str) -> tuple[int, int] | None:
+    pattern = rf"\b{re.escape(identifier)}\b"
 
-    if isinstance(result, dict):
-        stderr = result.get("stderr")
-        if stderr:
-            raise RuntimeError(stderr)
-        return result.get("stdout", "")
+    match = re.search(pattern, line)
+    return None if match is None else match.span()
 
-    return str(result)
+# -------------------
+# | BASE EXTRACTORS |
+# -------------------
 
-def parse_json_lines(raw: str) -> List[Dict[str, Any]]:
-    annotations = []
-
-    for line in raw.splitlines():
-        line = line.strip().rstrip(",")
-
-        # Keep only Scala string literals
-        if line.startswith('"') and line.endswith('"'):
-            try:
-                # Decode Scala/Python-style escaped string
-                decoded = ast.literal_eval(line)
-
-                annotations.append(json.loads(decoded))
-
-            except Exception as e:
-                print(f"[WARN] Failed to parse line: {line}")
-                print(e)
-
-    return annotations
-
-# ----------------------------
-# Concept extractor interface
-# ----------------------------
-
-class ConceptExtractor(Protocol):
+@dataclass
+class Neo4jConceptExtractor(Protocol):
     name: str
+    query: str
+    
+    def get_annotations(
+        self,
+        neo4j_driver: Any,
+        source_dir: Path,
+    ) -> List[Dict[str, Any]]:
+        annotations: List[Dict[str, Any]] = []
+        unmatched = 0
 
-    def query(self) -> str:
+        with neo4j_driver.session() as session:
+            for record in session.run(self.query):
+                annotation = self._record_to_annotation(record, source_dir)
+
+                if annotation is None:
+                    unmatched += 1
+                    continue
+
+                annotations.append(annotation)
+
+        print(f"Unmatched variables: {unmatched}")
+        return annotations
+    
+    def _record_to_annotation(
+        self,
+        record: Any,
+        source_dir: Path,
+    ) -> Dict[str, Any] | None:
         ...
 
-    def parse(self, raw: str) -> List[Dict[str, Any]]:
-        ...
+@dataclass
+class DeclarationExtractor(Neo4jConceptExtractor, Protocol):
+    """Extract variable and parameter declarations."""
+
+    def _record_to_annotation(
+        self,
+        record: Any,
+        source_dir: Path,
+    ) -> Dict[str, Any] | None:
+        file_path = source_dir / record["filename"]
+        line_number = record["decl"]["LINE_NUMBER"]
+
+        if line_number is None or not file_path.exists():
+            return None
+
+        lines = file_path.read_text().splitlines()
+
+        if line_number < 1 or line_number > len(lines):
+            return None
+
+        code = lines[line_number - 1]
+        if code is None or record["decl"]["NAME"] is None:
+            return None
+
+        line_span = find_identifier_span(code, record["decl"]["NAME"])
+
+
+
+        if line_span is None:
+            return None
+
+        offset = sum(len(lines[i]) + 1 for i in range(line_number - 1))
+        span = (offset + line_span[0], offset + line_span[1])
+        print(record["decl"]["NAME"], file_path.read_text()[span[0]:span[1]])
+        return {
+            "concept": self.name,
+            "path": str(file_path),
+            "variable_name": record["decl"]["NAME"],
+            "line": line_number,
+            "column": record["decl"]["COLUMN_NUMBER"],
+            "code": code.strip(),
+            "span_start": span[0],
+            "span_end": span[1]
+        }
+
+# ----------------------
+# | CONCEPT EXTRACTORS |
+# ----------------------
+@dataclass
+class FixedValue(DeclarationExtractor):
+    """Extract variables and parameters that are never reassigned after declaration."""
+
+    name: str = "fixed_value"
+    query: str = """
+MATCH (decl:LOCAL)<-[r:REF]-(assign:IDENTIFIER)<-[arg:ARGUMENT]-(c:CALL)
+WHERE (decl.LINE_NUMBER = assign.LINE_NUMBER AND decl.COLUMN_NUMBER = assign.COLUMN_NUMBER) 
+AND (c.NAME = "<operator>.assignment" AND "LOCAL" IN labels(decl))
+AND assign.ARGUMENT_INDEX = 1
+AND NOT EXISTS { 
+(decl)<-[r2:REF]-(assign2:IDENTIFIER)<-[arg2:ARGUMENT]-(c2:CALL)
+  WHERE c2.NAME IN [ // All the writing operator
+    "<operator>.assignment",
+    "<operator>.assignmentPlus",
+    "<operator>.assignmentMinus",
+    "<operator>.assignmentMultiplication",
+    "<operator>.assignmentDivision",
+    "<operator>.postIncrement",
+    "<operator>.postDecrement",
+    "<operator>.preIncrement",
+    "<operator>.preDecrement"
+  ] AND assign2.ARGUMENT_INDEX = 1 // Left side of the assignment
+  AND (decl.LINE_NUMBER <> assign2.LINE_NUMBER OR decl.COLUMN_NUMBER <> assign2.COLUMN_NUMBER) // Not counting the declaration if it is an assignment
+}
+MATCH (decl)<-[:AST*]-(m:METHOD)
+RETURN DISTINCT decl, m.FILENAME AS filename
+
+UNION
+
+MATCH (decl:METHOD_PARAMETER_IN)
+WHERE NOT EXISTS { 
+(decl)<-[r2:REF]-(assign2:IDENTIFIER)<-[arg2:ARGUMENT]-(c2:CALL)
+  WHERE c2.NAME IN [ // All the writing operator
+    "<operator>.assignment",
+    "<operator>.assignmentPlus",
+    "<operator>.assignmentMinus",
+    "<operator>.assignmentMultiplication",
+    "<operator>.assignmentDivision",
+    "<operator>.postIncrement",
+    "<operator>.postDecrement",
+    "<operator>.preIncrement",
+    "<operator>.preDecrement"
+  ] AND assign2.ARGUMENT_INDEX = 1 // Left side of the assignment
+  AND (decl.LINE_NUMBER <> assign2.LINE_NUMBER OR decl.COLUMN_NUMBER <> assign2.COLUMN_NUMBER) // Not counting the declaration if it is an assignment
+}
+MATCH (decl)<-[:AST*]-(m:METHOD)
+WHERE m.FILENAME <> '<empty>'
+RETURN DISTINCT decl, m.FILENAME AS filename
+"""
 
 @dataclass
-class JoernConceptExtractor:
-    """
-    Base class for simple Joern concept extractors.
-    Subclasses only need to implement `query`.
-    """
-    name: str
+class FutureMutatedVariable(DeclarationExtractor):
+    """Extract variables and parameters, then label them as stable or future-mutated."""
 
-    def query(self) -> str:
-        raise NotImplementedError
+    name: str = "future_mutated_variable"
 
-    def parse(self, raw: str) -> List[Dict[str, Any]]:
-        return parse_json_lines(raw)
+    query: str = """
+// Find for all declaration, count all the identifier that are reassigned
+MATCH (decl:LOCAL|METHOD_PARAMETER_IN)<-[r:REF]-(assign:IDENTIFIER)<-[arg:ARGUMENT]-(c:CALL)
+WHERE c.NAME IN [ // All the writing operator
+  "<operator>.assignment",
+  "<operator>.assignmentPlus",
+  "<operator>.assignmentMinus",
+  "<operator>.assignmentMultiplication",
+  "<operator>.assignmentDivision",
+  "<operator>.postIncrement",
+  "<operator>.postDecrement",
+  "<operator>.preIncrement",
+  "<operator>.preDecrement"
+] AND assign.ARGUMENT_INDEX = 1 // Left side of the assignment
+AND (decl.LINE_NUMBER <> assign.LINE_NUMBER OR decl.COLUMN_NUMBER <> assign.COLUMN_NUMBER) // Not counting the declaration if it is an assignment
+WITH decl, count(assign) AS num_writes
+MATCH (decl)<-[:AST*]-(m:METHOD)
+RETURN DISTINCT decl, m.FILENAME as filename, num_writes
+"""
 
-    def run(self, client: CPGQLSClient) -> List[Dict[str, Any]]:
-        raw = run_query(client, self.query())
-        return self.parse(raw)
-    
-# ----------------------------
-# Specific concept extractors
-# ----------------------------
+    def get_annotations(
+        self,
+        neo4j_driver: Any,
+        source_dir: Path,
+    ) -> List[Dict[str, Any]]:
+        annotations: List[Dict[str, Any]] = []
+        unmatched = 0
+
+        with neo4j_driver.session() as session:
+            for record in session.run(self.query):
+                annotation = self._record_to_annotation(record, source_dir)
+
+                if annotation is None:
+                    unmatched += 1
+                    continue
+
+                annotation["num_writes"] = record["num_writes"]
+
+                annotations.append(annotation)
+
+        print(f"Unmatched variables: {unmatched}")
+        return annotations
 
 @dataclass
-class ArithmeticExpressionExtractor(JoernConceptExtractor):
-    name: str = "arithmetic_expression"
+class Gatherer(DeclarationExtractor):
+    """Extract variables that are used to accumulate state across method calls."""
 
-    def query(self) -> str:
-        return r'''
-        cpg.call
-        .filter(c =>
-            c.name == "<operator>.addition" ||
-            c.name == "<operator>.subtraction" ||
-            c.name == "<operator>.multiplication" ||
-            c.name == "<operator>.division" ||
-            c.name == "<operator>.modulo"
-        )
-        .map(c => {
-            val code = c.code.replace("\\", "\\\\").replace("\"", "\\\"")
-            val file = c.location.filename.replace("\\", "\\\\").replace("\"", "\\\"")
-            val method = c.method.name.replace("\\", "\\\\").replace("\"", "\\\"")
+    name: str = "gatherer"
 
-            s"""{"concept":"arithmetic_expression","operator":"${c.name}","code":"${code}","file":"${file}","line":${c.lineNumber.getOrElse(-1)},"column":${c.columnNumber.getOrElse(-1)},"method":"${method}"}"""
-        })
-        .l
-        '''
-    
-@dataclass
-class LoopBlockExtractor(JoernConceptExtractor):
-    name: str = "loop_block"
+    query: str = """
+MATCH (decl:LOCAL)<-[:REF]-(assign:IDENTIFIER)<-[:ARGUMENT]-(c_assign:CALL)
+// Match a declared identifier
+      , (cs:CONTROL_STRUCTURE)<-[:AST]-(n)-[:AST]->(decl)
+// That is declared before a loop
+      , (decl)<-[:REF]-(update:IDENTIFIER)<-[:ARGUMENT]-(c_updt:CALL)
+// This identifier is updated
+      , (c_updt)<-[:AST*]-(cs)
+// The update is inside the loop
 
-    def query(self) -> str:
-        return r'''
-        cpg.controlStructure
-        .filter(c =>
-            c.controlStructureType == "FOR" ||
-            c.controlStructureType == "WHILE" ||
-            c.controlStructureType == "DO"
-        )
-        .map(c => {
-            val code = c.code.replace("\\", "\\\\").replace("\"", "\\\"")
-            val file = c.location.filename.replace("\\", "\\\\").replace("\"", "")
-            val method = c.method.name.replace("\\", "\\\\").replace("\"", "")
+WHERE c_assign.NAME = "<operator>.assignment"
+  AND assign.ARGUMENT_INDEX = 1
+  AND cs.CONTROL_STRUCTURE_TYPE IN ["FOR", "WHILE"]
 
-            s"""{"concept":"loop_block","type":"${c.controlStructureType}","code":"${code}","file":"${file}","start_line":${c.lineNumber.getOrElse(-1)},"start_column":${c.columnNumber.getOrElse(-1)},"end_line":${c.lineNumberEnd.getOrElse(-1)},"end_column":${c.columnNumberEnd.getOrElse(-1)},"method":"${method}"}"""
-        })
-        .l
-        '''
+  AND (
+    // Case 1: x += y, x -= y, x *= y, x /= y
+    (
+      c_updt.NAME IN [
+        "<operator>.assignmentPlus",
+        "<operator>.assignmentMinus",
+        "<operator>.assignmentMultiplication",
+        "<operator>.assignmentDivision"
+      ]
+      AND update.ARGUMENT_INDEX = 1
+
+      // The other argument must not be a literal
+      AND EXISTS {
+        MATCH (c_updt)-[:ARGUMENT]->(rhs)
+        WHERE rhs.ARGUMENT_INDEX = 2
+          AND NOT rhs:LITERAL
+      }
+    )
+
+    OR
+
+    // Case 2: x = x + y / x = x - y / ...
+    (
+      c_updt.NAME = "<operator>.assignment"
+
+      // The variable must be on the left-hand side
+      AND EXISTS {
+        MATCH (decl)<-[:REF]-(lhs:IDENTIFIER)<-[:ARGUMENT]-(c_updt)
+        WHERE lhs.ARGUMENT_INDEX = 1
+      }
+
+      // The same variable must also appear on the right-hand side
+      AND EXISTS {
+        MATCH (c_updt)-[:ARGUMENT]->(rhs_root)
+        WHERE rhs_root.ARGUMENT_INDEX = 2
+        MATCH (rhs_root)-[:AST*0..]->(rhs_id:IDENTIFIER)-[:REF]->(decl)
+      }
+
+      // The right-hand side must contain a non-literal other argument
+      AND EXISTS {
+        MATCH (c_updt)-[:ARGUMENT]->(rhs_root)
+        WHERE rhs_root.ARGUMENT_INDEX = 2
+        MATCH (rhs_root)-[:AST*0..]->(other)
+        WHERE NOT other:LITERAL
+          AND NOT EXISTS {
+            MATCH (other)-[:REF]->(decl)
+          }
+      }
+    )
+  )
+
+WITH decl, cs,
+     collect(DISTINCT c_updt.NAME) AS update_names,
+     collect(DISTINCT c_updt) AS update_calls
+
+WHERE all(name IN update_names WHERE name IN [
+    "<operator>.assignmentPlus",
+    "<operator>.assignmentMinus",
+    "<operator>.assignmentMultiplication",
+    "<operator>.assignmentDivision",
+    "<operator>.assignment"
+])
+
+MATCH (decl)<-[:AST*]-(m:METHOD)
+
+RETURN DISTINCT decl, m.FILENAME AS filename, update_names, update_calls
+"""

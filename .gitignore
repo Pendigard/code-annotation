@@ -5,3 +5,11 @@ __pycache__/
 *.py[cod]
 outputs/*
 outputs
+.env
+.env.*
+!.env.example
+old
+*.ipynb
+data/code/*
+data/code
+output/graph/*
