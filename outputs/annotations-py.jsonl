@@ -1,8 +1,0 @@
-{"concept": "arithmetic_expression", "operator": "<operator>.subtraction", "code": "n - 1", "file": "fibonacci.py", "line": 7, "column": 26, "method": "fibonacci"}
-{"concept": "arithmetic_expression", "operator": "<operator>.subtraction", "code": "n - 2", "file": "fibonacci.py", "line": 7, "column": 43, "method": "fibonacci"}
-{"concept": "arithmetic_expression", "operator": "<operator>.addition", "code": "fibonacci(n - 1) + fibonacci(n - 2)", "file": "fibonacci.py", "line": 7, "column": 16, "method": "fibonacci"}
-{"concept": "arithmetic_expression", "operator": "<operator>.subtraction", "code": "n - 2", "file": "padovan.py", "line": 6, "column": 24, "method": "padovan"}
-{"concept": "arithmetic_expression", "operator": "<operator>.subtraction", "code": "n - 3", "file": "padovan.py", "line": 6, "column": 39, "method": "padovan"}
-{"concept": "arithmetic_expression", "operator": "<operator>.addition", "code": "padovan(n - 2) + padovan(n - 3)", "file": "padovan.py", "line": 6, "column": 16, "method": "padovan"}
-{"concept": "arithmetic_expression", "operator": "<operator>.addition", "code": "quick_sort(left) + middle", "file": "quick_sort.py", "line": 10, "column": 12, "method": "quick_sort"}
-{"concept": "arithmetic_expression", "operator": "<operator>.addition", "code": "quick_sort(left) + middle + quick_sort(right)", "file": "quick_sort.py", "line": 10, "column": 12, "method": "quick_sort"}

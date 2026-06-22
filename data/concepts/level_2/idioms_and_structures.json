@@ -1,6 +1,6 @@
 {
   "level": 2,
-  "label": "Idiomatic Level (Idioms & Structures)",
+  "label": "Idioms, Structures and Syntactic Sugar",
   "concepts": [
     {
       "name": "RAII",
@@ -46,7 +46,7 @@
       "name": "Guard clauses",
       "description": "An idiom where invalid, exceptional, or early-return cases are handled at the start of a function to keep the main path shallow and readable. Use this label for early returns, precondition checks, and fail-fast function structure.",
       "languages": ["JavaScript", "TypeScript", "Python", "Java", "C#", "Kotlin", "Swift", "Go", "Ruby"]
-    },
+    }, 
     {
       "name": "Resource cleanup finalization",
       "description": "An idiom where cleanup is made explicit through finally, defer, ensure, scope guards, or disposable blocks. Use this label when resource release is separated from acquisition but still guaranteed by structured control flow.",

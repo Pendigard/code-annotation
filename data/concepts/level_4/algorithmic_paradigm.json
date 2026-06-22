@@ -67,10 +67,6 @@
           "description": "A randomized algorithm whose output may be incorrect with a certain (typically small) probability. "
         }
       ]
-    },
-    {
-      "name": "No algorithmic paradigm",
-      "description": "Use when the code does not implement a recognizable algorithmic problem-solving strategy beyond ordinary syntax, idioms, or business logic."
     }
   ]
 }

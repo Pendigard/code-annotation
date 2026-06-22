@@ -1,3 +1,7 @@
 .vscode
 test.ipynb
 workspace
+__pycache__/
+*.py[cod]
+outputs/*
+outputs

@@ -2,7 +2,7 @@
     {
       "name": "Architectural",
       "description": "Design patterns that organize larger application boundaries, responsibilities, persistence, presentation, or communication between layers and components.",
-      "subconcepts": [
+      "concepts": [
         {
           "name": "Model-view-controller",
           "description": "Separates domain data, user interface rendering, and input/control logic into model, view, and controller responsibilities."
