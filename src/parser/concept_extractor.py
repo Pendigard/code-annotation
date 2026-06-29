@@ -1,11 +1,14 @@
 from pathlib import Path
 from typing import Any, Dict, List
 import json
+import os
 
+from dotenv import load_dotenv
 from neo4j import GraphDatabase
 
 from src.parser.extractors import *
-from src.parser.parser import NEO4J_PASSWORD
+
+import re
 
 
 class ConceptRegistry:
@@ -30,16 +33,58 @@ class ConceptRegistry:
 
 
 def main() -> None:
+    load_dotenv()
+    neo4j_password = os.getenv("NEO4J_PASSWORD")
+    if neo4j_password is None:
+        raise RuntimeError("NEO4J_PASSWORD is not set in .env")
+
     registry = ConceptRegistry()
-    registry.register(FutureMutatedVariable())
-    registry.register(FixedValue())
-    registry.register(Gatherer())
+    variable_extractors = [
+        FutureMutatedVariable,
+        FixedValue,
+        Gatherer,
+        Stepper,
+        Walker,
+        MostRecentHolder,
+        MostWantedHolder,
+        OneWayFlag,
+        Organizer,
+        Container,
+        VariableDependent,
+        Follower,
+        FutureDependency,
+        FutureReturnDependency,
+        VariableUsedInFunction,
+        Temporary,
+        FutureBranchDependency,
+        FutureRecursiveCall,
+    ]
+    for extractor_cls in variable_extractors:
+        for decl_only in [True, False]:
+            name_suffix = "_decl" if decl_only else ""
+            extractor = extractor_cls(name=f"{re.sub(r'(?<!^)(?=[A-Z])', '_', extractor_cls.__name__).lower()}{name_suffix}", decl_only=decl_only)
+            registry.register(extractor)
+            print(f"Registered extractor: {extractor.name}")
+            print(f"Extractor query: {extractor.query}\n")
+
+    node_extractors = [
+        SingleControlFlow,
+        BinaryControlFlow,
+        NCaseControlFlow,
+        FutureLoopEntry,
+        FutureBranchMerge,
+    ]
+    for extractor_cls in node_extractors:
+        extractor = extractor_cls(name=f"{re.sub(r'(?<!^)(?=[A-Z])', '_', extractor_cls.__name__).lower()}")
+        registry.register(extractor)
+        print(f"Registered extractor: {extractor.name}")
+        print(f"Extractor query: {extractor.query}\n")
 
     source_dir = Path("data/code/C++")
 
     driver = GraphDatabase.driver(
         "bolt://localhost:7687",
-        auth=("neo4j", NEO4J_PASSWORD),
+        auth=("neo4j", neo4j_password),
     )
 
     try:

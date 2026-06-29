@@ -12,4 +12,5 @@ old
 *.ipynb
 data/code/*
 data/code
-output/graph/*
+data/test
+output/*

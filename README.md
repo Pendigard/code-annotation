@@ -67,7 +67,7 @@ Two complementary annotation routes are available.
 
 #### Static analysis with Joern
 
-[`src/parser/parser.py`](src/parser/parser.py) builds a Code Property Graph (CPG) with Joern, exports it as Neo4j CSV, and imports the graph into a local Neo4j instance.
+[`src/parser/parser.py`](src/parser/parser.py) builds one native Joern Code Property Graph (CPG) per selected language. These persistent CPGs are the input for concept extraction and subgraph-mining stages.
 
 [`src/parser/concept_extractor.py`](src/parser/concept_extractor.py) runs Cypher-based extractors over that graph. Three C++ concepts are currently registered:
 
@@ -210,16 +210,22 @@ python -m src.llm_annotator.annotate_data \
 
 Use `--limit N` for a small experimental run. Annotation errors are preserved as JSONL records instead of stopping the full dataset job.
 
-### Run the Joern annotation route
+### Build Joern CPGs
 
-After configuring `.env` and starting Neo4j:
+Build selected languages or the complete supported corpus:
 
 ```bash
-python -m src.parser.parser
-python -m src.parser.concept_extractor
+conda run -n torcharm python -m src.parser.parser --languages cpp java python
+conda run -n torcharm python -m src.parser.parser --languages all
 ```
 
-The current entry points use `data/code/C++/` and write graph data under `output/graph/cpp/` and annotations under `output/annotations/`.
+Each graph is written to `output/graph/<language>/cpg.bin`. Existing graphs are skipped by default; pass `--overwrite` to rebuild them. Use `--enable-file-content` when downstream processing needs source content on Joern `FILE` nodes, and `--list-languages` to display the configured source folders and frontends. Multi-language runs continue after a frontend failure and return a non-zero status at the end; pass `--fail-fast` to stop immediately.
+
+The current Cypher concept extractor still operates on a graph previously imported into Neo4j:
+
+```bash
+conda run -n torcharm python -m src.parser.concept_extractor
+```
 
 ### Align annotations with tokens
 
